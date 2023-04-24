@@ -1,9 +1,11 @@
 from collections import namedtuple
 import random
 import queue_1
-# 영화 클래스
 
 
+
+
+# 상영관 클래스
 class Theater:
     def __init__ (self, theater_num , row , col):
         self.theater_num = theater_num
@@ -21,7 +23,8 @@ class Theater:
                    print("X", end="")
            print()
         
-        
+   
+# 영화 클래스     
 class Movie:
     def __init__(self, title , theater):
         self.title = title
@@ -35,6 +38,7 @@ class Reservation:
         self.reservation_num = random.randint(1000,9999)
     
 
+#영화관 클래스
 class Cinema:
     def __init__ (self):
         self.movies = []
@@ -120,10 +124,17 @@ cinema.add_movie(john_wick)
 cinema.add_movie(rebound)
 cinema.add_movie(killing_romance)
 
+print("1. 영화 정보 제공")
 cinema.get_all_movies()
 
+print("2. 예매 / 취소 / 변경 작업 요청 ")
+print("3. 영화 예매 처리 기능 - 영화 제목 , 자리, 예매번호 저장")
 reserve_num= cinema.reserve("존윅4", 2, 3)
+
+print("5. 예매 변경 처리 기능 - 큐에서 예매번호 찾아서 변경처리")
 cinema.change(reserve_num, 3, 4)
+
+print ("4. 예매 취소 처리 기능 - 큐에서 예매번호 찾아서 취소처리")
 cinema.cancellation(reserve_num)
 cinema.get_all_movies()
 
