@@ -50,12 +50,17 @@ class Cinema:
     # 전체 영화 정보 제공  영화 제목, 상영관
     def get_all_movies(self):
         for movie in self.movies:
-            print(movie.title)
-            print(movie.theater.theater_num)
+            print("영화 제목: ", movie.title)
+            print("상영관: ", movie.theater.theater_num)
         
     # 영화 제목으로 영화 정보 제공
-    def get_remain(self , movie):
-        return movie.theater.remains
+    def get_remain(self , title):
+        for movie in self.movies:
+            if movie.title == title:
+                print("잔여 좌석 : 총" ,  movie.theater.remains)
+                movie.theater.show_remains()
+                return movie.theater.remains
+        return -1
     
     # 예약
     def reserve(self , title , row , col):
@@ -71,6 +76,10 @@ class Cinema:
             print("예약완료: " , reservation.reservation_num)
             movie.theater.show_remains()
             return reservation.reservation_num
+        elif movie.theater.seats[row][col] == True:
+            print("이미 예약된 자리입니다.")
+        elif movie.theater.remains == 0:
+            print("예약 가능한 자리가 없습니다.")
     
     # 예약 취소
     def cancellation (self , reservation_num):
@@ -138,7 +147,41 @@ print ("4. 예매 취소 처리 기능 - 큐에서 예매번호 찾아서 취소
 cinema.cancellation(reserve_num)
 cinema.get_all_movies()
 
-title, n , m = input().split()
-cinema.reserve(title, int(n), int(m))
+reserve_num2 = cinema.reserve("존윅4", 2, 3)
+
+print("6. 잔여 좌석 확인 기능")
+cinema.get_remain("존윅4")
+
+print("중복된 예매 정보일 경우")
+reserve_num2 = cinema.reserve("존윅4", 2, 3)
+
+while(True):
+    print("원하시는 작업을 선택하세요")
+    print("1. 예매 , 2. 취소 , 3. 변경 , 4. 잔여좌석 확인, 5. 종료")
+    num1 = int(input())
+
+    if num1 == 1:
+        print("영화 제목, 좌석 행 , 좌석 열 을 입력하세요")
+        title, n , m = input().split()
+        cinema.reserve(title, int(n), int(m))  
+    elif num1 == 2:
+        print("예매번호를 입력하세요")
+        reserve_num = int(input())
+        cinema.cancellation(reserve_num)
+    elif num1==3:
+        print("예매번호, 좌석 행 , 좌석 열 을 입력하세요")
+        reserve_num, n , m = map(int,input().split())
+        cinema.change(reserve_num, int(n), int(m))
+    elif num1==4:
+        print("영화 제목을 입력하세요")
+        title = input()
+        cinema.get_remain(title)
+    elif num1==5:
+        break
+    
+
+
+
+
     
     
